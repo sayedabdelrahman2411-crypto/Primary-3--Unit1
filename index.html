@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 3 Math Exam - Properties of Multiplication</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Canvas-Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <!-- MathJax CDN for crisp TeX math rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(-45deg, #4c1d95, #6d28d9, #be185d, #831843);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Ensure math serif font within rendered MathJax components */
+        .MathJax {
+            font-family: 'Computer Modern', 'Latin Modern Math', 'TeX Gyre Termes', serif !important;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-slate-800">
+
+    <!-- Header / Branding -->
+    <header class="w-full bg-white/10 backdrop-blur-md border-b border-white/20 text-white py-4 px-6 sticky top-0 z-50 shadow-md">
+        <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-3 bg-white/20 rounded-xl">
+                    <i class="fa-solid fa-calculator text-2xl text-pink-300"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-wide">Grade 3 Math Assessment</h1>
+                    <p class="text-xs text-purple-200">Unit 1: Properties of Multiplication</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <div class="hidden sm:block text-right">
+                    <div class="text-xs text-purple-200 uppercase tracking-wider font-semibold">Teacher</div>
+                    <div class="text-sm font-bold text-white">Mr. Sayed Abdelrahman</div>
+                </div>
+                <a href="https://wa.me/201143943465" target="_blank" rel="noopener noreferrer" 
+                   class="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 transform hover:scale-105 border border-emerald-400">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span class="text-xs sm:text-sm">01143943465</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6">
+        <div class="w-full max-w-4xl">
+
+            <!-- SCREEN 1: Welcome Screen -->
+            <div id="screen-welcome" class="glass-card rounded-3xl p-6 sm:p-10 text-center transition-all duration-300">
+                <div class="w-20 h-20 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl shadow-inner">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+                <h2 class="text-3xl font-extrabold text-slate-800 mb-2">Welcome Students!</h2>
+                <p class="text-slate-600 mb-8 max-w-md mx-auto text-sm">Please enter your full two-word name (e.g., First Name & Last Name) to begin the interactive exam.</p>
+
+                <div class="max-w-md mx-auto mb-6">
+                    <label for="student-name-input" class="block text-left text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Student Full Name</label>
+                    <div class="relative">
+                        <input type="text" id="student-name-input" placeholder="e.g., Ahmed Ali" 
+                               class="w-full px-5 py-3.5 rounded-xl border-2 border-purple-200 focus:border-purple-600 focus:outline-none text-slate-800 font-medium transition duration-200 text-base shadow-sm">
+                        <div id="name-valid-icon" class="hidden absolute right-4 top-1/2 -translate-y-1/2 text-emerald-500 text-xl">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                    </div>
+                    <p id="name-error" class="text-pink-600 text-xs text-left mt-2 hidden font-medium">Please enter exactly two words (First name and Father/Family name).</p>
+                </div>
+
+                <button id="btn-to-instructions" disabled 
+                        class="w-full max-w-md bg-purple-600 hover:bg-purple-700 disabled:bg-slate-300 text-white font-bold py-3.5 px-8 rounded-xl transition duration-300 shadow-lg disabled:cursor-not-allowed">
+                    Proceed to Instructions <i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+
+            <!-- SCREEN 2: Instructions Screen -->
+            <div id="screen-instructions" class="hidden glass-card rounded-3xl p-6 sm:p-10 transition-all duration-300">
+                <div class="flex items-center gap-3 border-b border-slate-200 pb-4 mb-6">
+                    <i class="fa-solid fa-clipboard-list text-purple-600 text-2xl"></i>
+                    <h2 class="text-2xl font-bold text-slate-800">Exam Instructions</h2>
+                </div>
+
+                <ul class="space-y-4 mb-8 text-slate-700 text-sm sm:text-base">
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-clock text-purple-600 mt-1"></i>
+                        <span><strong>Exam Duration:</strong> 20 minutes countdown.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-asterisk text-purple-600 mt-1"></i>
+                        <span><strong>Mandatory Questions:</strong> All 30 selected questions are mandatory. You cannot move to the next question without answering.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-hashtag text-purple-600 mt-1"></i>
+                        <span><strong>Numerical Answers:</strong> For Complete questions, enter <strong>numbers only</strong> (e.g., 24). No letters, spaces, or words.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-eye-slash text-purple-600 mt-1"></i>
+                        <span><strong>No Immediate Feedback:</strong> Correct answers and step-by-step explanations will be presented in the final evaluation report.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-arrow-left text-purple-600 mt-1"></i>
+                        <span><strong>Navigation:</strong> You can click "Previous Question" anytime to review or edit previous responses.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-chart-line text-purple-600 mt-1"></i>
+                        <span><strong>Analytical Report:</strong> Complete feedback, grade breakdown, and dynamic dynamic practice recommendations will be generated upon completion.</span>
+                    </li>
+                </ul>
+
+                <div class="flex justify-between items-center gap-4">
+                    <button id="btn-back-to-welcome" class="px-6 py-3 border-2 border-slate-300 text-slate-600 font-bold rounded-xl hover:bg-slate-100 transition">
+                        Back
+                    </button>
+                    <button id="btn-start-exam" class="px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl shadow-lg transition">
+                        Start Exam Now <i class="fa-solid fa-play ml-2 text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SCREEN 3: Exam Screen -->
+            <div id="screen-exam" class="hidden glass-card rounded-3xl p-6 sm:p-10 transition-all duration-300 relative">
+                <!-- Top Status Bar -->
+                <div class="flex flex-wrap justify-between items-center border-b border-slate-200 pb-4 mb-6 gap-3">
+                    <div class="flex items-center gap-3">
+                        <span id="question-number-badge" class="font-bold text-slate-700 text-sm sm:text-base">Question 1 of 30</span>
+                        <span id="question-difficulty-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">Easy</span>
+                    </div>
+
+                    <div id="timer-badge" class="flex items-center gap-2 bg-purple-100 text-purple-800 font-extrabold px-4 py-2 rounded-xl transition duration-300">
+                        <i class="fa-solid fa-stopwatch text-base"></i>
+                        <span id="timer-display" class="font-mono text-lg">20:00</span>
+                    </div>
+                </div>
+
+                <!-- Question Area -->
+                <div class="mb-8 min-h-[160px]">
+                    <h3 id="question-text" class="text-lg sm:text-xl font-medium text-slate-800 mb-6 leading-relaxed">
+                        <!-- Question rendered here dynamically -->
+                    </h3>
+
+                    <!-- MCQ Options Container -->
+                    <div id="options-container" class="grid grid-cols-1 gap-3 hidden">
+                        <!-- Dynamic Radio Options -->
+                    </div>
+
+                    <!-- Fill-in Numerical Container -->
+                    <div id="numeric-container" class="hidden">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Type your numeric answer:</label>
+                        <input type="number" id="numeric-input" placeholder="e.g. 12" 
+                               class="w-full max-w-xs px-5 py-3 rounded-xl border-2 border-purple-200 focus:border-purple-600 focus:outline-none text-xl font-bold text-slate-800 shadow-sm">
+                    </div>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="flex justify-between items-center border-t border-slate-200 pt-6">
+                    <button id="btn-prev-question" class="px-6 py-3 border-2 border-slate-300 text-slate-600 font-bold rounded-xl hover:bg-slate-100 transition disabled:opacity-40 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-chevron-left mr-2"></i> Previous
+                    </button>
+                    <button id="btn-next-question" disabled class="px-8 py-3 bg-purple-600 hover:bg-purple-700 disabled:bg-slate-300 text-white font-bold rounded-xl shadow-lg transition disabled:cursor-not-allowed">
+                        Next <i class="fa-solid fa-chevron-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SCREEN 4: Results & Analytics Screen -->
+            <div id="screen-results" class="hidden glass-card rounded-3xl p-6 sm:p-10 transition-all duration-300">
+                <div class="text-center mb-8">
+                    <div class="inline-block p-3 bg-purple-100 text-purple-600 rounded-full mb-3">
+                        <i class="fa-solid fa-award text-3xl"></i>
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-slate-800">Exam Results & Analysis</h2>
+                    <p id="student-result-name" class="text-slate-600 font-medium mt-1">Student: Name</p>
+                </div>
+
+                <!-- Score Overview Banner -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 items-center bg-purple-50/60 p-6 rounded-2xl border border-purple-100">
+                    <div class="text-center md:text-left">
+                        <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Total Score</span>
+                        <div class="text-4xl font-black text-slate-800 mt-1" id="score-text">0 / 30</div>
+                        <div class="text-sm font-semibold text-slate-500 mt-1" id="percentage-text">0%</div>
+                    </div>
+
+                    <div class="flex justify-center">
+                        <div class="relative w-28 h-28 flex items-center justify-center">
+                            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                                <path class="text-slate-200" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                <path id="score-circle-path" class="text-purple-600 transition-all duration-1000 stroke-current" stroke-width="3.5" stroke-dasharray="0, 100" stroke-linecap="round" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                            </svg>
+                            <span id="score-circle-text" class="absolute text-lg font-extrabold text-slate-800">0%</span>
+                        </div>
+                    </div>
+
+                    <div class="text-center md:text-right">
+                        <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Performance</span>
+                        <div id="motivational-message" class="text-base font-bold text-slate-800 mt-1">Good Job!</div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="mb-10 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-chart-pie text-purple-600"></i> Skill Breakdown by Sub-topic & Difficulty
+                    </h3>
+                    <div class="w-full h-64">
+                        <canvas id="skillsChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Remedial Training Section -->
+                <div class="mb-10 bg-amber-50 border border-amber-200 p-6 rounded-2xl">
+                    <h3 class="text-lg font-bold text-amber-900 mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-lightbulb text-amber-600"></i> Personalized Remedial Practice Recommendations
+                    </h3>
+                    <div id="remedial-container" class="text-sm text-amber-800 space-y-2">
+                        <!-- Dynamically populated remedial points -->
+                    </div>
+                </div>
+
+                <!-- Comprehensive Question Review -->
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-purple-600"></i> Detailed Question Review
+                    </h3>
+                    <div id="review-container" class="space-y-4">
+                        <!-- Detailed Review Cards populated dynamically -->
+                    </div>
+                </div>
+
+                <div class="p-4 bg-slate-100 text-slate-500 rounded-xl text-xs text-center font-medium">
+                    <i class="fa-solid fa-lock mr-1"></i> Exam Integrity Secured: Re-taking the exam is disabled for this session.
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- 50-QUESTION DATABASE (Grade 3 - Unit 1: Properties of Multiplication) ---
+        const ALL_QUESTIONS = [
+            // MCQ Questions (1-35)
+            { id: 1, type: "mcq", difficulty: "Easy", topic: "Commutative Property", question: "Which equation illustrates the Commutative Property of multiplication?", options: ["$7 \\times 4 = 4 \\times 7$", "$7 + 4 = 4 + 7$", "$7 \\times 1 = 7$", "$7 \\times 0 = 0$"], correct: 0, explanation: "The Commutative Property states that changing the order of factors does not change the product: $a \\times b = b \\times a$." },
+            { id: 2, type: "mcq", difficulty: "Easy", topic: "Identity & Zero Property", question: "Calculate: $17 \\times 0 = \\dots$", options: ["17", "0", "1", "170"], correct: 1, explanation: "Zero Property of Multiplication: Any number multiplied by $0$ equals $0$." },
+            { id: 3, type: "mcq", difficulty: "Easy", topic: "Identity & Zero Property", question: "Calculate: $1 \\times 9 = \\dots$", options: ["10", "1", "9", "0"], correct: 2, explanation: "Identity Property of Multiplication: Any number multiplied by $1$ stays the same." },
+            { id: 4, type: "mcq", difficulty: "Easy", topic: "Repeated Addition", question: "Convert the repeated addition to multiplication: $5 + 5 + 5 + 5 = \\dots$", options: ["$5 \\times 3$", "$5 \\times 4$", "$5 + 4$", "$4 \\times 4$"], correct: 1, explanation: "There are 4 groups of 5, which equals $4 \\times 5$ or $5 \\times 4$." },
+            { id: 5, type: "mcq", difficulty: "Easy", topic: "Commutative Property", question: "Complete the blank: $3 \\times 8 = 8 \\times \\dots$", options: ["3", "8", "24", "11"], correct: 0, explanation: "By the Commutative Property, $3 \\times 8 = 8 \\times 3$." },
+            { id: 6, type: "mcq", difficulty: "Easy", topic: "Arrays & Groups", question: "Souad has 5 plates with 6 biscuits on each. How many biscuits does she have in total?", options: ["11", "25", "30", "36"], correct: 2, explanation: "Total biscuits = $5 \\times 6 = 30$." },
+            { id: 7, type: "mcq", difficulty: "Medium", topic: "Distributive Property", question: "Which expression is equal to $5 \\times 8$ using the Distributive Property?", options: ["$(5 \\times 3) + (5 \\times 5)$", "$(5 \\times 4) + (4 \\times 4)$", "$(5 \\times 8) + 1$", "$(5 + 3) \\times (5 + 5)$"], correct: 0, explanation: "Split $8$ into $3 + 5$. Then $5 \\times (3 + 5) = (5 \\times 3) + (5 \\times 5)$." },
+            { id: 8, type: "mcq", difficulty: "Medium", topic: "Distributive Property", question: "Find the missing number: $4 \\times 8 = (4 \\times 5) + (4 \\times \\dots)$", options: ["2", "3", "4", "5"], correct: 1, explanation: "Break down $8$ into $5 + 3$. Thus, the missing number is $3$." },
+            { id: 9, type: "mcq", difficulty: "Medium", topic: "Comparing Expressions", question: "$7 \\times 8$ is \\dots more than $7 \\times 7$.", options: ["1", "8", "7", "14"], correct: 2, explanation: "$7 \\times 8 = 56$ and $7 \\times 7 = 49$. $56 - 49 = 7$ (which is $1$ more group of $7$)." },
+            { id: 10, type: "mcq", difficulty: "Medium", topic: "Comparing Expressions", question: "$9 \\times 4$ is \\dots less than $9 \\times 5$.", options: ["9", "5", "4", "1"], correct: 0, explanation: "$9 \\times 5 = 45$ and $9 \\times 4 = 36$. $45 - 36 = 9$ (which is $1$ group of $9$ less)." },
+            { id: 11, type: "mcq", difficulty: "Medium", topic: "Distributive Property", question: "Solve for the missing number: $4 \\times 6 - 4 = 4 \\times \\dots$", options: ["6", "5", "4", "7"], correct: 1, explanation: "$4 \\times 6 - 4 = 24 - 4 = 20$. Since $4 \\times 5 = 20$, the missing factor is $5$." },
+            { id: 12, type: "mcq", difficulty: "Medium", topic: "Commutative Property", question: "If $6 \\times 7 = 42$, what is $7 \\times 6$?", options: ["36", "42", "49", "13"], correct: 1, explanation: "By the Commutative Property, $7 \\times 6 = 6 \\times 7 = 42$." },
+            { id: 13, type: "mcq", difficulty: "Hard", topic: "Decomposition / Distributive", question: "Complete: $8 \\times 6 = (8 \\times \\dots) + (8 \\times 2)$", options: ["3", "4", "5", "6"], correct: 1, explanation: "Break down $6$ into $4 + 2$. Therefore, $8 \\times 6 = (8 \\times 4) + (8 \\times 2)$." },
+            { id: 14, type: "mcq", difficulty: "Hard", topic: "Decomposition / Distributive", question: "Find the missing option: $9 \\times 8 = (9 \\times 9) - \\dots$", options: ["1", "8", "9", "72"], correct: 2, explanation: "$9 \\times 8 = 72$. $9 \\times 9 = 81$. $81 - 9 = 72$. So subtracting $9$ (one group of $9$) gives the result." },
+            { id: 15, type: "mcq", difficulty: "Hard", topic: "Distributive Property", question: "Select the correct expression: $6 \\times 7 = 5 \\times 7 + \\dots$", options: ["5", "6", "7", "35"], correct: 2, explanation: "$6 \\times 7$ is $6$ groups of $7$. $5 \\times 7$ is $5$ groups of $7$. To make $6$ groups, add $1$ more group of $7$." },
+            { id: 16, type: "mcq", difficulty: "Easy", topic: "Repeated Addition", question: "$2 + 2 + 2 + 2 + 2 = 2 \\times \\dots$", options: ["2", "4", "5", "10"], correct: 2, explanation: "There are 5 terms of 2 being added, which is $2 \\times 5$." },
+            { id: 17, type: "mcq", difficulty: "Medium", topic: "Arrays & Groups", question: "Emad has a bookcase with 4 shelves, with 8 books on each shelf. How many total books does he have?", options: ["12", "28", "32", "36"], correct: 2, explanation: "Total books = $4 \\times 8 = 32$." },
+            { id: 18, type: "mcq", difficulty: "Medium", topic: "Commutative Property", question: "Which multiplication facts are equal?", options: ["$5 \\times 8$ and $10 \\times 5$", "$8 \\times 6$ and $6 \\times 8$", "$10 \\times 6$ and $5 \\times 8$", "$5 \\times 10$ and $8 \\times 6$"], correct: 1, explanation: "$8 \\times 6 = 48$ and $6 \\times 8 = 48$ (Commutative Property)." },
+            { id: 19, type: "mcq", difficulty: "Hard", topic: "Distributive Property", question: "$5 \\times 8 = \\dots \\times 8 + 8$", options: ["4", "5", "6", "3"], correct: 0, explanation: "$5 \\times 8 = 40$. $40 - 8 = 32$. Since $4 \\times 8 = 32$, the missing number is $4$." },
+            { id: 20, type: "mcq", difficulty: "Hard", topic: "Multi-Step Multiplication", question: "Alia bought 6 boxes of pencils. Each box contains 10 pencils. How many pencils does she have in total?", options: ["16", "50", "60", "66"], correct: 2, explanation: "Total pencils = $6 \\times 10 = 60$." },
+
+            // Numerical Input / Complete Questions (21-50)
+            { id: 21, type: "numeric", difficulty: "Easy", topic: "Commutative Property", question: "Complete the missing number: $7 \\times 2 = 2 \\times \\dots$", correct: "7", explanation: "By the Commutative Property ($a \\times b = b \\times a$), the missing factor is $7$." },
+            { id: 22, type: "numeric", difficulty: "Easy", topic: "Identity & Zero Property", question: "Complete: $0 \\times 10 = \\dots$", correct: "0", explanation: "Zero Property: Any number multiplied by $0$ is $0$." },
+            { id: 23, type: "numeric", difficulty: "Easy", topic: "Identity & Zero Property", question: "Complete: $8 \\times 1 = \\dots$", correct: "8", explanation: "Identity Property: Any number multiplied by $1$ remains unchanged ($8$)." },
+            { id: 24, type: "numeric", difficulty: "Easy", topic: "Basic Multiplication", question: "Complete: $6 \\times 3 = \\dots$", correct: "18", explanation: "$6 \\times 3 = 18$." },
+            { id: 25, type: "numeric", difficulty: "Easy", topic: "Basic Multiplication", question: "Complete: $9 \\times 4 = \\dots$", correct: "36", explanation: "$9 \\times 4 = 36$." },
+            { id: 26, type: "numeric", difficulty: "Medium", topic: "Distributive Property", question: "Find the missing number: $5 \\times 9 = (5 \\times 3) + (5 \\times \\dots)$", correct: "6", explanation: "Split $9$ into $3 + 6$. Therefore, the missing factor is $6$." },
+            { id: 27, type: "numeric", difficulty: "Medium", topic: "Comparing Expressions", question: "$2 \\times 5$ is how much more than $2 \\times 4$? Enter numeric value only.", correct: "2", explanation: "$2 \\times 5 = 10$, $2 \\times 4 = 8$. $10 - 8 = 2$." },
+            { id: 28, type: "numeric", difficulty: "Medium", topic: "Comparing Expressions", question: "$4 \\times 7$ is how much less than $4 \\times 8$? Enter numeric value only.", correct: "4", explanation: "$4 \\times 8 = 32$, $4 \\times 7 = 28$. $32 - 28 = 4$." },
+            { id: 29, type: "numeric", difficulty: "Medium", topic: "Distributive Property", question: "Find the missing number: $6 \\times 9 = (6 \\times 8) + \\dots$", correct: "6", explanation: "$6 \\times 9 = 54$, $6 \\times 8 = 48$. $54 - 48 = 6$." },
+            { id: 30, type: "numeric", difficulty: "Hard", topic: "Distributive Property", question: "Solve for the missing factor: $\\dots \\times 4 = (4 \\times 9) - 4$", correct: "8", explanation: "$(4 \\times 9) - 4 = 36 - 4 = 32$. Since $8 \\times 4 = 32$, the missing number is $8$." },
+            { id: 31, type: "numeric", difficulty: "Hard", topic: "Decomposition / Distributive", question: "Find the missing number: $7 \\times 5 = (8 \\times 5) - \\dots$", correct: "5", explanation: "$8 \\times 5 = 40$ and $7 \\times 5 = 35$. $40 - 35 = 5$." },
+            { id: 32, type: "numeric", difficulty: "Hard", topic: "Word Problems", question: "Mahmoud runs 3 laps around the field every day. How many laps does he run in 6 days?", correct: "18", explanation: "Total laps = $3 \\times 6 = 18$." },
+            { id: 33, type: "numeric", difficulty: "Easy", topic: "Basic Multiplication", question: "Calculate: $8 \\times 8 = \\dots$", correct: "64", explanation: "$8 \\times 8 = 64$." },
+            { id: 34, type: "numeric", difficulty: "Medium", topic: "Commutative Property", question: "If $9 \\times 7 = 63$, then $7 \\times 9 = \\dots$", correct: "63", explanation: "By the Commutative Property, $7 \\times 9 = 63$." },
+            { id: 35, type: "numeric", difficulty: "Hard", topic: "Distributive Property", question: "Find the missing value: $8 \\times 6 = (8 \\times 5) + \\dots$", correct: "8", explanation: "$8 \\times 6 = 48$. $8 \\times 5 = 40$. $48 - 40 = 8$." }
+        ];
+
+        // Global Exam State Variables
+        let examQuestions = []; // Selected 30 questions
+        let currentQuestionIndex = 0;
+        let studentAnswers = {}; // Map of qIndex -> answer
+        let studentName = "";
+        let timerInterval = null;
+        let timeRemaining = 20 * 60; // 20 minutes in seconds
+
+        // DOM Elements
+        const elWelcomeScreen = document.getElementById('screen-welcome');
+        const elInstructionsScreen = document.getElementById('screen-instructions');
+        const elExamScreen = document.getElementById('screen-exam');
+        const elResultsScreen = document.getElementById('screen-results');
+
+        const elNameInput = document.getElementById('student-name-input');
+        const elNameError = document.getElementById('name-error');
+        const elNameValidIcon = document.getElementById('name-valid-icon');
+        const elBtnToInstructions = document.getElementById('btn-to-instructions');
+
+        const elBtnStartExam = document.getElementById('btn-start-exam');
+        const elBtnBackToWelcome = document.getElementById('btn-back-to-welcome');
+
+        const elQuestionBadge = document.getElementById('question-number-badge');
+        const elDifficultyBadge = document.getElementById('question-difficulty-badge');
+        const elTimerBadge = document.getElementById('timer-badge');
+        const elTimerDisplay = document.getElementById('timer-display');
+        const elQuestionText = document.getElementById('question-text');
+        const elOptionsContainer = document.getElementById('options-container');
+        const elNumericContainer = document.getElementById('numeric-container');
+        const elNumericInput = document.getElementById('numeric-input');
+
+        const elBtnPrev = document.getElementById('btn-prev-question');
+        const elBtnNext = document.getElementById('btn-next-question');
+
+        // Initial setup on window load
+        window.addEventListener('DOMContentLoaded', () => {
+            setupNameValidation();
+            setupNavigationHandlers();
+        });
+
+        // 1. Name Input Validation (Strictly 2 words required)
+        function setupNameValidation() {
+            elNameInput.addEventListener('input', () => {
+                const value = elNameInput.value.trim();
+                const words = value.split(/\s+/).filter(w => w.length > 0);
+
+                if (words.length === 2) {
+                    elNameError.classList.add('hidden');
+                    elNameValidIcon.classList.remove('hidden');
+                    elBtnToInstructions.disabled = false;
+                    studentName = value;
+                } else {
+                    if (value.length > 0) {
+                        elNameError.classList.remove('hidden');
+                    } else {
+                        elNameError.classList.add('hidden');
+                    }
+                    elNameValidIcon.classList.add('hidden');
+                    elBtnToInstructions.disabled = true;
+                }
+            });
+        }
+
+        // 2. Screen Navigation Logic
+        function setupNavigationHandlers() {
+            elBtnToInstructions.addEventListener('click', () => {
+                elWelcomeScreen.classList.add('hidden');
+                elInstructionsScreen.classList.remove('hidden');
+            });
+
+            elBtnBackToWelcome.addEventListener('click', () => {
+                elInstructionsScreen.classList.add('hidden');
+                elWelcomeScreen.classList.remove('hidden');
+            });
+
+            elBtnStartExam.addEventListener('click', () => {
+                elInstructionsScreen.classList.add('hidden');
+                elExamScreen.classList.remove('hidden');
+                initializeExam();
+            });
+
+            elBtnPrev.addEventListener('click', () => {
+                if (currentQuestionIndex > 0) {
+                    saveCurrentAnswer();
+                    currentQuestionIndex--;
+                    renderQuestion();
+                }
+            });
+
+            elBtnNext.addEventListener('click', () => {
+                saveCurrentAnswer();
+                if (currentQuestionIndex < examQuestions.length - 1) {
+                    currentQuestionIndex++;
+                    renderQuestion();
+                } else {
+                    submitExam();
+                }
+            });
+
+            elNumericInput.addEventListener('input', () => {
+                validateAnswerSelected();
+            });
+        }
+
+        // Initialize Exam Data and Timer
+        function initializeExam() {
+            // Pick first 30 questions from bank
+            examQuestions = ALL_QUESTIONS.slice(0, 30);
+            currentQuestionIndex = 0;
+            studentAnswers = {};
+            timeRemaining = 20 * 60; // 20 mins
+
+            startTimer();
+            renderQuestion();
+        }
+
+        // Timer Functionality
+        function startTimer() {
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Time is up! Submitting your exam automatically.");
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            elTimerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            // Red warning if under 5 minutes (300s)
+            if (timeRemaining < 300) {
+                elTimerBadge.className = "flex items-center gap-2 bg-pink-600 text-white font-extrabold px-4 py-2 rounded-xl animate-pulse";
+            }
+        }
+
+        // Render Current Question
+        function renderQuestion() {
+            const q = examQuestions[currentQuestionIndex];
+
+            // Header UI
+            elQuestionBadge.textContent = `Question ${currentQuestionIndex + 1} of ${examQuestions.length}`;
+            elDifficultyBadge.textContent = q.difficulty;
+            
+            if (q.difficulty === "Easy") {
+                elDifficultyBadge.className = "px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700";
+            } else if (q.difficulty === "Medium") {
+                elDifficultyBadge.className = "px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-700";
+            } else {
+                elDifficultyBadge.className = "px-3 py-1 rounded-full text-xs font-bold bg-pink-100 text-pink-700";
+            }
+
+            // Question Text
+            elQuestionText.innerHTML = q.question;
+
+            // Render Input Controls
+            if (q.type === "mcq") {
+                elNumericContainer.classList.add('hidden');
+                elOptionsContainer.classList.remove('hidden');
+                elOptionsContainer.innerHTML = '';
+
+                q.options.forEach((opt, idx) => {
+                    const label = document.createElement('label');
+                    label.className = "flex items-center p-4 rounded-xl border-2 border-slate-200 cursor-pointer hover:border-purple-300 transition bg-white shadow-sm";
+                    
+                    const isChecked = studentAnswers[currentQuestionIndex] === idx;
+                    
+                    label.innerHTML = `
+                        <input type="radio" name="mcq_option" value="${idx}" ${isChecked ? 'checked' : ''} class="w-5 h-5 text-purple-600 focus:ring-purple-500">
+                        <span class="ml-3 text-base text-slate-800 font-medium">${opt}</span>
+                    `;
+
+                    label.addEventListener('click', () => {
+                        const radio = label.querySelector('input');
+                        radio.checked = true;
+                        validateAnswerSelected();
+                    });
+
+                    elOptionsContainer.appendChild(label);
+                });
+            } else {
+                elOptionsContainer.classList.add('hidden');
+                elNumericContainer.classList.remove('hidden');
+                elNumericInput.value = studentAnswers[currentQuestionIndex] !== undefined ? studentAnswers[currentQuestionIndex] : '';
+            }
+
+            // Previous Button state
+            elBtnPrev.disabled = currentQuestionIndex === 0;
+
+            // Next / Submit Button Text & state
+            if (currentQuestionIndex === examQuestions.length - 1) {
+                elBtnNext.innerHTML = 'Submit Exam <i class="fa-solid fa-check-double ml-2"></i>';
+                elBtnNext.className = "px-8 py-3 bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 text-white font-bold rounded-xl shadow-lg transition disabled:cursor-not-allowed";
+            } else {
+                elBtnNext.innerHTML = 'Next <i class="fa-solid fa-chevron-right ml-2"></i>';
+                elBtnNext.className = "px-8 py-3 bg-purple-600 hover:bg-purple-700 disabled:bg-slate-300 text-white font-bold rounded-xl shadow-lg transition disabled:cursor-not-allowed";
+            }
+
+            validateAnswerSelected();
+
+            // Rerender MathJax equations
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function saveCurrentAnswer() {
+            const q = examQuestions[currentQuestionIndex];
+            if (q.type === "mcq") {
+                const selected = document.querySelector('input[name="mcq_option"]:checked');
+                if (selected) {
+                    studentAnswers[currentQuestionIndex] = parseInt(selected.value, 10);
+                }
+            } else {
+                const val = elNumericInput.value.trim();
+                if (val !== "") {
+                    studentAnswers[currentQuestionIndex] = val;
+                }
+            }
+        }
+
+        function validateAnswerSelected() {
+            const q = examQuestions[currentQuestionIndex];
+            let isAnswered = false;
+
+            if (q.type === "mcq") {
+                const selected = document.querySelector('input[name="mcq_option"]:checked');
+                isAnswered = !!selected;
+            } else {
+                isAnswered = elNumericInput.value.trim() !== "";
+            }
+
+            elBtnNext.disabled = !isAnswered;
+        }
+
+        // 3. Final Submission & Evaluation Logic
+        function submitExam() {
+            clearInterval(timerInterval);
+            saveCurrentAnswer();
+
+            elExamScreen.classList.add('hidden');
+            elResultsScreen.classList.remove('hidden');
+
+            evaluateResults();
+        }
+
+        function evaluateResults() {
+            let correctCount = 0;
+            const totalQuestions = examQuestions.length;
+            const topicPerformance = {};
+
+            examQuestions.forEach((q, idx) => {
+                const userAns = studentAnswers[idx];
+                let isCorrect = false;
+
+                if (q.type === "mcq") {
+                    isCorrect = userAns === q.correct;
+                } else {
+                    isCorrect = String(userAns).trim() === String(q.correct).trim();
+                }
+
+                if (isCorrect) correctCount++;
+
+                // Track topic performance
+                if (!topicPerformance[q.topic]) {
+                    topicPerformance[q.topic] = { total: 0, correct: 0 };
+                }
+                topicPerformance[q.topic].total++;
+                if (isCorrect) topicPerformance[q.topic].correct++;
+            });
+
+            const percentage = Math.round((correctCount / totalQuestions) * 100);
+
+            // Display Student Name & Score
+            document.getElementById('student-result-name').textContent = `Student: ${studentName}`;
+            document.getElementById('score-text').textContent = `${correctCount} / ${totalQuestions}`;
+            document.getElementById('percentage-text').textContent = `${percentage}%`;
+            document.getElementById('score-circle-text').textContent = `${percentage}%`;
+
+            // Score Circle Progress
+            const circlePath = document.getElementById('score-circle-path');
+            circlePath.setAttribute('stroke-dasharray', `${percentage}, 100`);
+
+            // Motivational Feedback & Confetti
+            const motivationalEl = document.getElementById('motivational-message');
+            if (percentage >= 85) {
+                motivationalEl.textContent = "Outstanding Performance! 🌟";
+                motivationalEl.className = "text-base font-bold text-emerald-600 mt-1";
+                // Trigger Confetti Effect
+                confetti({
+                    particleCount: 120,
+                    spread: 80,
+                    origin: { y: 0.6 }
+                });
+            } else if (percentage >= 65) {
+                motivationalEl.textContent = "Good Effort! Keep Practicing! 👍";
+                motivationalEl.className = "text-base font-bold text-amber-600 mt-1";
+            } else {
+                motivationalEl.textContent = "Requires Further Review & Practice 📘";
+                motivationalEl.className = "text-base font-bold text-pink-600 mt-1";
+            }
+
+            // Render Chart
+            renderChart(topicPerformance);
+
+            // Render Remedial Recommendations
+            renderRemedial(topicPerformance);
+
+            // Render Detailed Question Breakdown
+            renderReviewList();
+
+            // Re-render MathJax in Results Screen
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        // Render Performance Chart via Chart.js
+        function renderChart(topicPerformance) {
+            const ctx = document.getElementById('skillsChart').getContext('2d');
+            const labels = Object.keys(topicPerformance);
+            const dataScores = labels.map(t => Math.round((topicPerformance[t].correct / topicPerformance[t].total) * 100));
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Mastery Percentage (%)',
+                        data: dataScores,
+                        backgroundColor: 'rgba(147, 51, 234, 0.7)',
+                        borderColor: 'rgba(147, 51, 234, 1)',
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+
+        // Dynamic Remedial Training Section
+        function renderRemedial(topicPerformance) {
+            const container = document.getElementById('remedial-container');
+            container.innerHTML = '';
+
+            const weakTopics = Object.keys(topicPerformance).filter(t => {
+                const ratio = topicPerformance[t].correct / topicPerformance[t].total;
+                return ratio < 0.75;
+            });
+
+            if (weakTopics.length === 0) {
+                container.innerHTML = `<p class="text-emerald-700 font-semibold"><i class="fa-solid fa-circle-check mr-2"></i>Excellent work! You have demonstrated high mastery across all topics of Multiplication Properties.</p>`;
+            } else {
+                weakTopics.forEach(topic => {
+                    const div = document.createElement('div');
+                    div.className = "flex items-start gap-2";
+                    div.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-amber-600 mt-1"></i> <span>Review recommended for <strong>${topic}</strong>. Re-visit lesson exercises and properties rules for this concept.</span>`;
+                    container.appendChild(div);
+                });
+            }
+        }
+
+        // Render Step-by-Step Question Review
+        function renderReviewList() {
+            const container = document.getElementById('review-container');
+            container.innerHTML = '';
+
+            examQuestions.forEach((q, idx) => {
+                const userAns = studentAnswers[idx];
+                let isCorrect = false;
+                let userDisplay = "";
+                let correctDisplay = "";
+
+                if (q.type === "mcq") {
+                    isCorrect = userAns === q.correct;
+                    userDisplay = userAns !== undefined ? q.options[userAns] : "No Answer";
+                    correctDisplay = q.options[q.correct];
+                } else {
+                    isCorrect = String(userAns).trim() === String(q.correct).trim();
+                    userDisplay = userAns !== undefined ? userAns : "No Answer";
+                    correctDisplay = q.correct;
+                }
+
+                const card = document.createElement('div');
+                card.className = `p-5 rounded-2xl border-2 ${isCorrect ? 'border-emerald-200 bg-emerald-50/40' : 'border-pink-200 bg-pink-50/40'}`;
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-3 gap-2">
+                        <span class="font-bold text-slate-800 text-sm">Q${idx + 1}. ${q.question}</span>
+                        <span class="px-2.5 py-1 rounded-full text-xs font-bold ${isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-pink-100 text-pink-800'}">
+                            ${isCorrect ? '<i class="fa-solid fa-check mr-1"></i> Correct' : '<i class="fa-solid fa-xmark mr-1"></i> Incorrect'}
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs mb-3 font-medium">
+                        <div class="p-2.5 rounded-lg ${isCorrect ? 'bg-emerald-100/60 text-emerald-900' : 'bg-pink-100/60 text-pink-900'}">
+                            Your Answer: <strong>${userDisplay}</strong>
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-white border border-slate-200 text-slate-700">
+                            Correct Answer: <strong>${correctDisplay}</strong>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-slate-600 bg-white/80 p-3 rounded-xl border border-slate-200">
+                        <strong class="text-purple-700 block mb-1"><i class="fa-solid fa-graduation-cap"></i> Step-by-Step Explanation:</strong>
+                        <span>${q.explanation}</span>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>
